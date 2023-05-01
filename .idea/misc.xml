@@ -3,15 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/edit_button_drawable.xml" value="0.254" />
-        <entry key="app/src/main/res/drawable/edit_text_drawable.xml" value="0.254" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.31567028985507245" />
-        <entry key="app/src/main/res/layout/activity_logup.xml" value="0.3692708333333333" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3692708333333333" />
-        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3692708333333333" />
-        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.3692708333333333" />
-        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.190625" />
+        <entry key="app/src/main/res/layout/activity_collagelist.xml" value="0.2576530612244898" />
+        <entry key="app/src/main/res/layout/actvity.xml" value="0.3645833333333333" />
+        <entry key="app/src/main/res/layout/collage_list.xml" value="0.3645833333333333" />
+        <entry key="app/src/main/res/layout/collage_list2.xml" value="0.3645833333333333" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.365625" />
+        <entry key="app/src/main/res/layout/item_collage.xml" value="0.365625" />
       </map>
     </option>
   </component>
