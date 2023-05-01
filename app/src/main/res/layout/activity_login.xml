@@ -12,7 +12,7 @@
         android:id="@+id/textEdit_signup_username"
         android:layout_width="297dp"
         android:layout_height="52dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/edit_text_drawable"
         android:color="#FFFFFF"
         android:ems="10"
@@ -61,7 +61,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="40dp"
 
         android:text="username"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="48dp"
         android:text="Log In"
         android:textColor="#FFF"
 

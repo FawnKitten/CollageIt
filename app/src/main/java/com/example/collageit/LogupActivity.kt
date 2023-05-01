@@ -14,7 +14,7 @@ class LogupActivity : AppCompatActivity() {
         binding = ActivityLogupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonLogupLogup.setOnClickListener {
+        binding.root.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
