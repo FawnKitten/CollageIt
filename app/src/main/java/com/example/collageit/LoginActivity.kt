@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.root.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            startActivity(Intent(this@LoginActivity, LogupActivity::class.java))
         }
     }
 }
