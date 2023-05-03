@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "562560596982",
+    "project_id": "collageit-86d00",
+    "storage_bucket": "collageit-86d00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562560596982:android:e7e888897d62709ff8e5d7",
+        "android_client_info": {
+          "package_name": "com.example.collageit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "562560596982-sq6tdsve2fbggqk6a1oolct6t0juksus.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPJ9Ra4op4E_PRykj6kqTzcPcIk_WvrQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "562560596982-sq6tdsve2fbggqk6a1oolct6t0juksus.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
