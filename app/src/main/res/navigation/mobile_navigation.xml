@@ -24,17 +24,17 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/navigation_collage_fragment"
-        android:name="com.example.collageit.ui.CollageFragment"
+        android:name="com.example.collageit.ui.navigationFragments.CollageFragment"
         android:label="@string/collages"
         tools:layout="@layout/fragment_collage" />
     <fragment
         android:id="@+id/navigation_create_collage_fragment"
-        android:name="com.example.collageit.ui.CreateCollageFragment"
+        android:name="com.example.collageit.ui.navigationFragments.CreateCollageFragment"
         android:label="@string/create_collage"
         tools:layout="@layout/fragment_create_collage" />
     <fragment
         android:id="@+id/navigation_profile_fragment"
-        android:name="com.example.collageit.ui.ProfileFragment"
-        android:label="@string/profile"
+        android:name="com.example.collageit.ui.navigationFragments.ProfileFragment"
+        android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
