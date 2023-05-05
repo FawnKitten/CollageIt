@@ -6,53 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".collageCreation.ChooseCollageFormatActivity">
 
-<!--    <Button-->
-<!--        android:id="@+id/button_createCollage_option1"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="16dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:text="1"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/button_createCollage_option2"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button_createCollage_option2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:text="2"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/button_createCollage_option3"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="36dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:text="3"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/button_createCollage_option2"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <ViewStub-->
-<!--        android:id="@+id/viewStub_createCollage_selectedCollageStub"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:layout="@layout/fragment_collage_option1"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/button_createCollage_option2"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/button_createCollage_option2" />-->
-
-    <TextView
-        android:id="@+id/textView8"
+    <Button
+        android:id="@+id/button_createCollage_option1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="1"
+        app:layout_constraintEnd_toStartOf="@+id/button_createCollage_option2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_createCollage_option2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_createCollage_option3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="16dp"
+        android:text="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_createCollage_option2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ViewStub
+        android:id="@+id/viewStub_createCollage_selectedCollageStubOption1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout="@layout/fragment_collage_option1"
+        app:layout_constraintEnd_toEndOf="@+id/button_createCollage_option2"
+        app:layout_constraintTop_toBottomOf="@id/button_createCollage_option2" />
+    <ViewStub
+        android:id="@+id/viewStub_createCollage_selectedCollageStubOption2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout="@layout/fragment_collage_option2"
+        app:layout_constraintEnd_toEndOf="@+id/button_createCollage_option2"
+        app:layout_constraintTop_toBottomOf="@id/button_createCollage_option2" />
+    <ViewStub
+        android:id="@+id/viewStub_createCollage_selectedCollageStubOption3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout="@layout/fragment_collage_option3"
+        app:layout_constraintEnd_toEndOf="@+id/button_createCollage_option2"
+        app:layout_constraintTop_toBottomOf="@id/button_createCollage_option2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
