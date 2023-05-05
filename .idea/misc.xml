@@ -7,13 +7,14 @@
         <entry key="app/src/main/res/drawable/edit_text_drawable.xml" value="0.254" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.276" />
-        <entry key="app/src/main/res/layout/activity_collagelist.xml" value="0.365625" />
-        <entry key="app/src/main/res/layout/activity_collagelistitem.xml" value="0.365625" />
+        <entry key="app/src/main/res/layout/activity_choose_collage_format.xml" value="0.31567028985507245" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_logup.xml" value="0.3692708333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3692708333333333" />
         <entry key="app/src/main/res/layout/fragment_collage.xml" value="0.31567028985507245" />
-        <entry key="app/src/main/res/layout/fragment_collage_list.xml" value="0.1778115501519757" />
+        <entry key="app/src/main/res/layout/fragment_collage_option1.xml" value="0.31567028985507245" />
+        <entry key="app/src/main/res/layout/fragment_collage_option2.xml" value="0.31567028985507245" />
+        <entry key="app/src/main/res/layout/fragment_collage_option3.xml" value="0.31567028985507245" />
         <entry key="app/src/main/res/layout/fragment_create_collage.xml" value="0.31567028985507245" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3692708333333333" />
