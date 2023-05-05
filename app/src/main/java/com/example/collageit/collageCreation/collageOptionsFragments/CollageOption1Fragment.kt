@@ -1,15 +1,11 @@
-package com.example.collageit.ui.navigationFragments
+package com.example.collageit.collageCreation.collageOptionsFragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.collageit.R
-import com.example.collageit.collageCreation.ChooseCollageFormatActivity
-import com.example.collageit.databinding.FragmentCreateCollageBinding
-
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,16 +14,13 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [CreateCollageFragment.newInstance] factory method to
+ * Use the [CollageOption1Fragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CreateCollageFragment : Fragment() {
+class CollageOption1Fragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
-    private var _binding: FragmentCreateCollageBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,18 +35,7 @@ class CreateCollageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-        _binding = FragmentCreateCollageBinding.inflate(inflater, container, false)
-
-        binding.button.setOnClickListener{
-            startActivity(Intent(activity, ChooseCollageFormatActivity::class.java))
-
-        }
-        return binding.root
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        return inflater.inflate(R.layout.fragment_collage_option1, container, false)
     }
 
     companion object {
@@ -63,12 +45,12 @@ class CreateCollageFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment CreateCollageFragment.
+         * @return A new instance of fragment CollageOption1Fragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            CreateCollageFragment().apply {
+            CollageOption1Fragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
