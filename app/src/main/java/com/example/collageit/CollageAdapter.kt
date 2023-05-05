@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
+
 class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<CollageAdapter.ViewHolder>(){
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val textViewName: TextView
@@ -32,3 +33,4 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
     }
     override fun getItemCount() = dataSet.size
 }
+
