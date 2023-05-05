@@ -40,7 +40,7 @@ class CollageFragment : Fragment() {
 
     companion object {
         /**
-         * Use this factory method to create a new instance of
+         * Use this factory method to create a new instance of k
          * this fragment using the provided parameters.
          *
          * @param param1 Parameter 1.
