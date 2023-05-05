@@ -1,11 +1,13 @@
 package com.example.collageit.ui.navigationFragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.collageit.R
+import androidx.fragment.app.Fragment
+import com.example.collageit.User
+import com.example.collageit.databinding.FragmentProfileBinding
+import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +24,9 @@ class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentProfileBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,8 +40,22 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        binding = FragmentProfileBinding.inflate(layoutInflater)
+        val view = binding.root
+
+        val user = User(
+            "John Doe",
+            "john.doe",
+            "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fbodhicounseling.com%2Fwp-content%2Fuploads%2F2018%2F05%2Fblank-profile-picture-973460_960_720-300x300.png&f=1&nofb=1&ipt=c0de406be899c4b55ce869cb39cf7cd0a1726c1bf95cc6db371a65d279e0771a&ipo=images"
+        )
+
+        binding.textViewProfileUsername.text = user.name
+        Picasso.get().load(user.profilePictureLink).into(binding.imageViewProfileProfilePicture)
+
+//        return inflater.inflate(R.layout.fragment_profile, container, false)
+        return view
     }
+
 
     companion object {
         /**
