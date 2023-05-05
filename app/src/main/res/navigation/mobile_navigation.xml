@@ -26,7 +26,7 @@
         android:id="@+id/navigation_collage_fragment"
         android:name="com.example.collageit.ui.navigationFragments.CollageFragment"
         android:label="@string/collages"
-        tools:layout="@layout/fragment_collage" />
+        tools:layout="@layout/fragment_collageList" />
     <fragment
         android:id="@+id/navigation_create_collage_fragment"
         android:name="com.example.collageit.ui.navigationFragments.CreateCollageFragment"
