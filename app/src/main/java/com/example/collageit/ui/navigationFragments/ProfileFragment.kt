@@ -49,8 +49,8 @@ class ProfileFragment : Fragment() {
             "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fbodhicounseling.com%2Fwp-content%2Fuploads%2F2018%2F05%2Fblank-profile-picture-973460_960_720-300x300.png&f=1&nofb=1&ipt=c0de406be899c4b55ce869cb39cf7cd0a1726c1bf95cc6db371a65d279e0771a&ipo=images"
         )
 
-        binding.textViewProfileUsername.text = user.name
-        Picasso.get().load(user.profilePictureLink).into(binding.imageViewProfileProfilePicture)
+        //binding.textViewProfileUsername.text = user.name
+        // Picasso.get().load(user.profilePictureLink).into(binding.imageViewProfileProfilePicture)
 
 //        return inflater.inflate(R.layout.fragment_profile, container, false)
         return view
