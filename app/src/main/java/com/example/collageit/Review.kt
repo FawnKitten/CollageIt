@@ -15,6 +15,11 @@ class Review (var image: String) : AppCompatActivity() {
         setContentView(binding.root)
 
         Picasso.get().load(image).into(binding.collagePicture)
+
+        binding.publishCollageButton.setOnClickListener {
+
+        }
+
     }
 
 
