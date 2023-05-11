@@ -1,16 +1,12 @@
 package com.example.collageit.ui.navigationFragments
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import com.example.collageit.R
-import com.example.collageit.collageCreation.ChooseCollageFormatActivity
+import androidx.fragment.app.Fragment
+import com.example.collageit.ImageUploadActivity
 import com.example.collageit.databinding.FragmentCreateCollageBinding
 
 
@@ -47,8 +43,10 @@ class CreateCollageFragment : Fragment() {
         // Inflate the layout for this fragment
 
         _binding = FragmentCreateCollageBinding.inflate(inflater, container, false)
+
         binding.button.setOnClickListener{
-            startActivity(Intent(activity, ChooseCollageFormatActivity::class.java))
+            startActivity(Intent(activity, ImageUploadActivity::class.java))
+
         }
         return binding.root
     }
