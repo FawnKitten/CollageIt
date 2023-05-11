@@ -23,20 +23,22 @@ class LogupActivity : AppCompatActivity() {
 
         binding = ActivityLogupBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val intent = Intent(this@LogupActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
         binding.buttonSignupConfirm.setOnClickListener {
             val email = binding.textEditSignupEmail.text
-            val password = binding.textEditSignupPassword.text
-            val confirmpassword = binding.textEditSignupConfirmpassword.text
-            auth = FirebaseAuth.getInstance()
-            val currentUser = auth.currentUser
-            if (currentUser != null) {
-                val intent = Intent(this@LogupActivity, MainActivity::class.java)
-                startActivity(intent)
-            }
+            val password = binding.textEditSignupPassword.text.toString()
+            val confirmpassword = binding.textEditSignupConfirmpassword.text.toString()
+            val username = binding.textEditSignupUsername.text
+
             Log.d("hello", "hello")
-            if (password == confirmpassword) {
-                auth.createUserWithEmailAndPassword(email.toString(), password.toString())
+            if (password.compareTo(confirmpassword) == 0) {
+
+                auth.createUserWithEmailAndPassword(email.toString(), password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
@@ -47,11 +49,31 @@ class LogupActivity : AppCompatActivity() {
                                 "$user",
                                 Toast.LENGTH_SHORT,
                             ).show()
+
+                            val db = FirebaseFirestore.getInstance()
+
+                            val doc = UserProfile(
+
+                                "$username",
+                                "$email",
+                                "",
+                                "",
+
+                            )
+                            auth.currentUser?.let { it1 ->
+                                db.collection("user").document(it1.uid)
+                                    .set(doc)
+                                    .addOnSuccessListener { Log.d(LoginActivity.TAG, "DocumentSnapshot successfully written!") }
+                                    .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+                            }
+
+                            Log.d("hello","done")
+
+
                             val intent = Intent(this@LogupActivity, MainActivity::class.java)
                             startActivity(intent)
 
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
                             Toast.makeText(
                                 baseContext,
@@ -60,6 +82,7 @@ class LogupActivity : AppCompatActivity() {
                             ).show()
                         }
                     }
+
             } else {
                 Toast.makeText(
                     baseContext,
@@ -68,8 +91,10 @@ class LogupActivity : AppCompatActivity() {
                 ).show()
             }
 
-            binding.root.setOnClickListener {
-                startActivity(Intent(this@LogupActivity, LoginActivity::class.java))
-            }
-        }   }
+
+        }
+        binding.root.setOnClickListener {
+            startActivity(Intent(this@LogupActivity, LoginActivity::class.java))
+        }
+    }
 }

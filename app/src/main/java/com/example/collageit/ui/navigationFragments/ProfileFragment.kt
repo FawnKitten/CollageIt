@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.collageit.User
 import com.example.collageit.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,6 +24,7 @@ class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var auth: FirebaseAuth
 
     private lateinit var binding: FragmentProfileBinding
 
@@ -42,6 +44,10 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(layoutInflater)
         val view = binding.root
+        view.setOnClickListener {
+            auth = FirebaseAuth.getInstance()
+            auth.signOut()
+        }
 
         val user = User(
             "John Doe",
