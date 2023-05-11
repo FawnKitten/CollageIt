@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.FileNotFoundException
 
 
@@ -62,3 +63,21 @@ class ImageUploadActivity : AppCompatActivity() {
         return cursor.getString(columnIndex)
     }
 }
+// code to connect to Firestore
+/*
+val db = FirebaseFirestore.getInstance()
+
+val user = User(
+    "$email",
+    "$password",
+
+    "$username",
+)
+db.collection("user").document("VKrmjUYGndEzfiu41JMN")
+.set(user)
+.addOnSuccessListener { Log.d(LoginActivity.TAG, "DocumentSnapshot successfully written!") }
+.addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+
+Log.d("hello","done")
+
+}*/
