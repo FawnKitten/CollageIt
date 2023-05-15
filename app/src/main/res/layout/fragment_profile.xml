@@ -6,16 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.navigationFragments.ProfileFragment">
 
-    <ImageView
-        android:id="@+id/imageView_profile_profilePicture"
-        android:layout_width="195dp"
-        android:layout_height="186dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_margin="10dp"
+        android:layout_marginTop="16dp"
+        android:padding="5dp"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        app:layout_constraintBottom_toTopOf="@+id/textEdit_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.173"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.443"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        app:strokeColor="@android:color/darker_gray"
+        app:strokeWidth="10dp" />
 
     <EditText
         android:id="@+id/textEdit_name"
@@ -37,7 +42,7 @@
         android:id="@+id/textEdit_description"
         android:layout_width="309dp"
         android:layout_height="44dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="304dp"
         android:background="@drawable/edit_text_drawable"
         android:color="#000000"
         android:hint="Type your name"
@@ -45,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_profile_profilePicture"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
