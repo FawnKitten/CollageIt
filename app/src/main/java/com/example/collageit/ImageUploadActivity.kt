@@ -1,9 +1,13 @@
 package com.example.collageit
 
 import android.content.Intent
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.common.io.Files.getFileExtension
@@ -164,5 +168,5 @@ class ImageUploadActivity : AppCompatActivity() {
 //        } finally {
 //            cursor?.close()
 //        }
-//    }
-}
+//    } }
+
