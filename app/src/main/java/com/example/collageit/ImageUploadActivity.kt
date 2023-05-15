@@ -7,9 +7,15 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.common.io.Files.getFileExtension
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.io.FileNotFoundException
+import java.net.URI
 
 
 class ImageUploadActivity : AppCompatActivity() {
@@ -61,6 +67,49 @@ class ImageUploadActivity : AppCompatActivity() {
         cursor.moveToFirst()
         var imagePath = cursor.getString(columnIndex)
         return cursor.getString(columnIndex)
+    }
+    fun upload(imageUri : Uri) {
+        if (imageUri != null) {
+            val fileRef = FirebaseStorage.getInstance()
+                    // change to desired reference
+                .getReference(System.currentTimeMillis().toString() + getFileExtension(imageUri))
+            fileRef.putFile(imageUri)
+                .addOnCompleteListener {
+                    fileRef.downloadUrl.addOnSuccessListener { uri ->
+                        val url = uri
+                        val users: MutableMap<String, Any> = HashMap()
+                        users["DOC"] = System.currentTimeMillis().toString()
+                        users["image"] = url.toString()
+                        val auth1 = FirebaseAuth.getInstance().currentUser?.uid
+                        val db = FirebaseFirestore.getInstance()
+                        var count = 1
+
+                        db.collection("Posts").get().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                for (document in task.result) {
+                                    count++
+                                }
+                                Log.d("TAG", count.toString() + "")
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.exception)
+                            }
+                        }
+                        if (auth1 != null) {
+                            db.collection("user").document(auth1).collection("collages").document(
+                                count.toString()
+                            ).set(users)
+                                .addOnCompleteListener(
+                                    OnCompleteListener<Void?> {
+                                        Toast.makeText(
+                                            this@ImageUploadActivity,
+                                            "Upload Sucess" + url.toString(),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    })
+                        }
+                    }
+                }
+        }
     }
 }
 
