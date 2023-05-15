@@ -48,7 +48,6 @@ class ImageUploadActivity : AppCompatActivity() {
         if (requestCode == PHOTO_REQUEST) if (resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: uri - ${data?.clipData}")
             val clipData = data?.clipData!!.debug()
-            findViewById<TextView>(R.id.textView8).text = "Select New Images"
             // TODO: Only accept valid file extensions
 //            val filePaths = fileUris.map { getPath(it.debug()) }
 //            Log.d(TAG, "onActivityResult: filePaths - $filePaths")
@@ -111,14 +110,16 @@ class ImageUploadActivity : AppCompatActivity() {
                         val db = FirebaseFirestore.getInstance()
                         var count = 1
 
-                        db.collection("Posts").get().addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                for (document in task.result) {
-                                    count++
+                        if (auth1 != null) {
+                            db.collection("user").document(auth1).collection("collages").get().addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    for (document in task.result) {
+                                        count++
+                                    }
+                                    Log.d("TAG", count.toString() + "")
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.exception)
                                 }
-                                Log.d("TAG", count.toString() + "")
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.exception)
                             }
                         }
                         if (auth1 != null) {
@@ -169,5 +170,5 @@ class ImageUploadActivity : AppCompatActivity() {
 //        } finally {
 //            cursor?.close()
 //        }
-//    }
+//    } }
 
