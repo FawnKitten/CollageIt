@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.FileNotFoundException
-import java.net.URI
 
 
 class ImageUploadActivity : AppCompatActivity() {
@@ -68,11 +67,13 @@ class ImageUploadActivity : AppCompatActivity() {
         var imagePath = cursor.getString(columnIndex)
         return cursor.getString(columnIndex)
     }
-    fun upload(imageUri : Uri) {
+
+    fun upload(imageUri : Uri, fileType : String) {
         if (imageUri != null) {
             val fileRef = FirebaseStorage.getInstance()
-                    // change to desired reference
-                .getReference(System.currentTimeMillis().toString() + getFileExtension(imageUri))
+
+            // change to desired reference
+                .getReference(System.currentTimeMillis().toString() + fileType)
             fileRef.putFile(imageUri)
                 .addOnCompleteListener {
                     fileRef.downloadUrl.addOnSuccessListener { uri ->
