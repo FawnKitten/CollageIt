@@ -45,7 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout="@layout/fragment_collage_option1"
-        app:layout_constraintEnd_toEndOf="@+id/button_createCollage_option2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_createCollage_option2" />
 
     <ViewStub
@@ -54,7 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout="@layout/fragment_collage_option2"
-        app:layout_constraintEnd_toEndOf="@+id/button_createCollage_option2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_createCollage_option2" />
 
     <ViewStub
@@ -63,7 +67,36 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout="@layout/fragment_collage_option3"
-        app:layout_constraintEnd_toEndOf="@+id/button_createCollage_option2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_createCollage_option2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="454dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_createCollage_Test1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/ImageView_createCollage_test2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        app:layout_constraintStart_toEndOf="@+id/imageView_createCollage_Test1"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        tools:srcCompat="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
