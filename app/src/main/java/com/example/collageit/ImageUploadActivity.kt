@@ -110,14 +110,16 @@ class ImageUploadActivity : AppCompatActivity() {
                         val db = FirebaseFirestore.getInstance()
                         var count = 1
 
-                        db.collection("Posts").get().addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                for (document in task.result) {
-                                    count++
+                        if (auth1 != null) {
+                            db.collection("user").document(auth1).collection("collages").get().addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    for (document in task.result) {
+                                        count++
+                                    }
+                                    Log.d("TAG", count.toString() + "")
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.exception)
                                 }
-                                Log.d("TAG", count.toString() + "")
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.exception)
                             }
                         }
                         if (auth1 != null) {
