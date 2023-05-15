@@ -1,9 +1,13 @@
 package com.example.collageit
 
 import android.content.Intent
+import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.common.io.Files.getFileExtension
@@ -44,6 +48,7 @@ class ImageUploadActivity : AppCompatActivity() {
         if (requestCode == PHOTO_REQUEST) if (resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: uri - ${data?.clipData}")
             val clipData = data?.clipData!!.debug()
+            findViewById<TextView>(R.id.textView8).text = "Select New Images"
             // TODO: Only accept valid file extensions
 //            val filePaths = fileUris.map { getPath(it.debug()) }
 //            Log.d(TAG, "onActivityResult: filePaths - $filePaths")
@@ -165,4 +170,4 @@ class ImageUploadActivity : AppCompatActivity() {
 //            cursor?.close()
 //        }
 //    }
-}
+
