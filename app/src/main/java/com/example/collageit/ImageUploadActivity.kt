@@ -6,9 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.common.io.Files.getFileExtension
 import com.google.firebase.auth.FirebaseAuth
@@ -32,7 +34,6 @@ class ImageUploadActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_upload)
-
         findViewById<TextView>(R.id.textView8).setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
@@ -48,6 +49,7 @@ class ImageUploadActivity : AppCompatActivity() {
         if (requestCode == PHOTO_REQUEST) if (resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: uri - ${data?.clipData}")
             val clipData = data?.clipData!!.debug()
+
             // TODO: Only accept valid file extensions
 //            val filePaths = fileUris.map { getPath(it.debug()) }
 //            Log.d(TAG, "onActivityResult: filePaths - $filePaths")
@@ -92,7 +94,6 @@ class ImageUploadActivity : AppCompatActivity() {
         var imagePath = cursor.getString(columnIndex)
         return cursor.getString(columnIndex)
     }
-
     fun upload(imageUri : Uri, fileType : String) {
         if (imageUri != null) {
             val fileRef = FirebaseStorage.getInstance()

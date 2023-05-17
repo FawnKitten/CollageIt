@@ -5,10 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.collageit.Collage
 import com.example.collageit.CollageAdapter
+import com.example.collageit.R
 import com.example.collageit.databinding.FragmentCollageListBinding
+import com.google.firebase.storage.FirebaseStorage
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,3 +95,5 @@ class CollageFragment : Fragment() {
             }
     }
 }
+
+
