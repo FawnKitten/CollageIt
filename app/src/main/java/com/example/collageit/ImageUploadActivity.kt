@@ -67,6 +67,11 @@ class ImageUploadActivity : AppCompatActivity() {
 
 
             // TODO: Send URIS to ChooseCollageFormatActivity
+            val photoUriList = arrayListOf<Uri>()
+            for (uri in fileUris) {
+                photoUriList.add(uri)
+            }
+            Log.d(TAG, "onActivityResult: photoUriList - $photoUriList")
             /***************************
              *  NOTE TO JUSTIN         *
              *  -------------          *
@@ -79,6 +84,8 @@ class ImageUploadActivity : AppCompatActivity() {
                 upload(uri, "")
             }
             val intent = Intent(this, ChooseCollageFormatActivity::class.java)
+            intent.putExtra(ChooseCollageFormatActivity.PASSED_IMAGES_EXTRA, photoUriList)
+            startActivity(intent)
 
         }
     }
