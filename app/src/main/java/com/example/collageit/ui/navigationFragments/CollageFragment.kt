@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
+//import com.bumptech.glide.Glide
 import com.example.collageit.Collage
 import com.example.collageit.CollageAdapter
 import com.example.collageit.R
@@ -59,7 +59,7 @@ class CollageFragment : Fragment() {
             ),
             Collage(
                 "Joao2",
-                "https://marketplace.canva.com/EAE9rkxE9fA/1/0/1067w/canva-beige-elegant-minimalist-travel-scrapbook-photo-collage-%28portrait%29-Vbtv_yLZdys.jpg",
+                "https://firebasestorage.googleapis.com/v0/b/collageit-86d00.appspot.com/o/images%2Fimages.jpeg?alt=media&token=7962795c-fd2a-4efc-a129-cda403a7ab9b",
                 "description"
             )
         ))

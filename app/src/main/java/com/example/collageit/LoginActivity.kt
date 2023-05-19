@@ -71,9 +71,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this@LoginActivity, LogupActivity::class.java))
         }
 
-        binding.buttonSignupConfirm.setOnClickListener {
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.buttonSignupConfirm.setOnClickListener {
+//            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 }
