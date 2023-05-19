@@ -53,8 +53,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.0'
 
     // the inapp messaging may cause dependency conflicts:
-    // implementation "com.google.firebase:firebase-inappmessaging:17.0.0"
-    // implementation "com.google.firebase:firebase-inappmessaging-display:17.0.0"
+     implementation "com.google.firebase:firebase-inappmessaging:20.3.2"
+     implementation "com.google.firebase:firebase-inappmessaging-display:20.3.2"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

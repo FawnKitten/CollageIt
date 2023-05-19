@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".collageCreation.collageOptionsFragments.CollageOption2Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Collage Option 2" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView_option2_image1"
+            android:layout_width="105dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="44dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/grey"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/imageView_option2_image2"
+            android:layout_width="105dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="135dp"
+            android:layout_marginTop="4dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/grey"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/imageView_option2_image3"
+            android:layout_width="105dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="264dp"
+            android:layout_marginTop="44dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/grey"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/imageView_option2_image4"
+            android:layout_width="105dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="192dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/grey"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/imageView_option2_image5"
+            android:layout_width="105dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="135dp"
+            android:layout_marginTop="272dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/grey"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/imageView_option2_image6"
+            android:layout_width="105dp"
+            android:layout_height="111dp"
+            android:layout_marginStart="264dp"
+            android:layout_marginTop="192dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/grey"
+            tools:src="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
