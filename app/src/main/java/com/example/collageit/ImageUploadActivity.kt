@@ -6,18 +6,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.common.io.Files.getFileExtension
+import com.example.collageit.collageCreation.ChooseCollageFormatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import java.io.FileNotFoundException
-import com.example.collageit.collageCreation.ChooseCollageFormatActivity
 
 private fun <T> T.debug(): T {
     Log.d(ImageUploadActivity.TAG, "DEBUG: $this")
@@ -51,10 +46,11 @@ class ImageUploadActivity : AppCompatActivity() {
             val clipData = data?.clipData!!.debug()
 
             // TODO: Only accept valid file extensions
+            val fileUris = (0 until clipData.itemCount).map { clipData.getItemAt(it).uri }.debug()
 //            val filePaths = fileUris.map { getPath(it.debug()) }
 //            Log.d(TAG, "onActivityResult: filePaths - $filePaths")
 //            val fileExtns = filePaths.map { it.substring(it.lastIndexOf(".") + 1) }
-//            Log.d(TAG, "onActivityResult: $filePaths")
+//            Log.d(TAG, "onActivityResult: extns - $fileExtns")
 //            try {
 //                val allowedFiletypes = listOf("img", "jpg", "jpeg", "png")
 //                if (fileExtns.any { !allowedFiletypes.contains(it) }) {
@@ -79,7 +75,9 @@ class ImageUploadActivity : AppCompatActivity() {
              *                         *
              ***************************/
 
-            val fileUris = (0 until clipData.itemCount).map { clipData.getItemAt(it).uri }.debug()
+            for (uri in fileUris) {
+                upload(uri, "")
+            }
             val intent = Intent(this, ChooseCollageFormatActivity::class.java)
 
         }
@@ -94,25 +92,26 @@ class ImageUploadActivity : AppCompatActivity() {
         var imagePath = cursor.getString(columnIndex)
         return cursor.getString(columnIndex)
     }
-    fun upload(imageUri : Uri, fileType : String) {
-        if (imageUri != null) {
-            val fileRef = FirebaseStorage.getInstance()
+
+    private fun upload(imageUri: Uri, fileType: String) {
+        val fileRef = FirebaseStorage.getInstance()
 
             // change to desired reference
-                .getReference(System.currentTimeMillis().toString() + fileType)
-            fileRef.putFile(imageUri)
-                .addOnCompleteListener {
-                    fileRef.downloadUrl.addOnSuccessListener { uri ->
-                        val url = uri
-                        val users: MutableMap<String, Any> = HashMap()
-                        users["DOC"] = System.currentTimeMillis().toString()
-                        users["image"] = url.toString()
-                        val auth1 = FirebaseAuth.getInstance().currentUser?.uid
-                        val db = FirebaseFirestore.getInstance()
-                        var count = 1
+            .getReference(System.currentTimeMillis().toString()) // + fileType)
+        fileRef.putFile(imageUri)
+            .addOnCompleteListener {
+                fileRef.downloadUrl.addOnSuccessListener { uri ->
+                    val url = uri
+                    val users: MutableMap<String, Any> = HashMap()
+                    users["DOC"] = System.currentTimeMillis().toString()
+                    users["image"] = url.toString()
+                    val auth1 = FirebaseAuth.getInstance().currentUser?.uid
+                    val db = FirebaseFirestore.getInstance()
+                    var count = 1
 
-                        if (auth1 != null) {
-                            db.collection("user").document(auth1).collection("collages").get().addOnCompleteListener { task ->
+                    if (auth1 != null) {
+                        db.collection("user").document(auth1).collection("collages").get()
+                            .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     for (document in task.result) {
                                         count++
@@ -122,23 +121,21 @@ class ImageUploadActivity : AppCompatActivity() {
                                     Log.d(TAG, "Error getting documents: ", task.exception)
                                 }
                             }
-                        }
-                        if (auth1 != null) {
-                            db.collection("user").document(auth1).collection("collages").document(
-                                count.toString()
-                            ).set(users)
-                                .addOnCompleteListener(
-                                    OnCompleteListener<Void?> {
-                                        Toast.makeText(
-                                            this@ImageUploadActivity,
-                                            "Upload Sucess" + url.toString(),
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    })
-                        }
+                    }
+                    if (auth1 != null) {
+                        db.collection("user").document(auth1).collection("collages").document(
+                            count.toString()
+                        ).set(users)
+                            .addOnCompleteListener {
+                                Toast.makeText(
+                                    this@ImageUploadActivity,
+                                    "Upload Sucess$url",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                     }
                 }
-        }
+            }
     }
 }
 
