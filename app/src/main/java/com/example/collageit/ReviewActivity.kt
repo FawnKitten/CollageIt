@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.collageit.databinding.ActivityReviewBinding
 import com.squareup.picasso.Picasso
 
-class Review (var image: String) : AppCompatActivity() {
+class ReviewActivity (var image: String) : AppCompatActivity() {
    private lateinit var binding: ActivityReviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

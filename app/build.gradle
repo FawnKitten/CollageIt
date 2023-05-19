@@ -47,8 +47,9 @@ dependencies {
     implementation "com.google.firebase:firebase-storage:20.2.0"
     implementation "com.google.firebase:firebase-database:20.2.1"
     implementation 'com.google.android.gms:play-services-location:21.0.1'
-
+    implementation 'com.google.android.material:material:1.9.0'
     implementation "com.google.firebase:firebase-firestore:24.6.0"
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
 
     // the inapp messaging may cause dependency conflicts:
     // implementation "com.google.firebase:firebase-inappmessaging:17.0.0"
