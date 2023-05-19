@@ -18,6 +18,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toEndOf="@+id/imageView_option1_image1"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/grey"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -28,6 +29,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@+id/imageView_option1_image7"
         app:layout_constraintTop_toBottomOf="@+id/imageView_option1_image3"
+        app:srcCompat="@drawable/grey"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -40,6 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView_option1_image3"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/grey"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -53,6 +56,7 @@
         app:layout_constraintEnd_toStartOf="@+id/imageView_option1_image3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_option1_image1"
+        app:srcCompat="@drawable/grey"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -63,6 +67,7 @@
         android:layout_marginEnd="88dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_option1_image3"
+        app:srcCompat="@drawable/grey"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -73,6 +78,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/grey"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -86,6 +92,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView_option1_image3"
         app:layout_constraintTop_toBottomOf="@+id/imageView_option1_image4"
+        app:srcCompat="@drawable/grey"
         tools:src="@tools:sample/avatars" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

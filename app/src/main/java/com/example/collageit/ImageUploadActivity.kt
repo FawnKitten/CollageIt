@@ -6,9 +6,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.collageit.collageCreation.ChooseCollageFormatActivity
 import java.io.FileNotFoundException
 
 
@@ -27,6 +28,11 @@ class ImageUploadActivity : AppCompatActivity() {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             startActivityForResult(photoPickerIntent, PHOTO_REQUEST)
+        }
+
+        findViewById<Button>(R.id.button2).setOnClickListener {
+            val intent = Intent(this, ChooseCollageFormatActivity::class.java)
+            startActivity(intent)
         }
     }
 
