@@ -78,12 +78,12 @@ db = FirebaseFirestore.getInstance()
                         for (document1 in collages.documents) {
                             Log.d("hello3", document1.toString())
                             val imageurl = document1.get("image")
-                            val imagename = document1.get("DOC")
-                            Log.d("hello3", imageurl.toString())
-                            Log.d("hello3", imagename.toString())
+                            val imagename = document1.get("title")
+                            val imagedescription = document1.get("description")
 
 
-                            itemsList.add(Collage(imagename.toString(), imageurl.toString()))
+
+                            itemsList.add(Collage(imagename.toString(), imagedescription.toString(), imageurl.toString()))
                             adapter = CollageAdapter(itemsList)
 
 

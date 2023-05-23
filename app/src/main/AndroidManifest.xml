@@ -19,6 +19,9 @@
             android:name=".ReviewCollageActivity"
             android:exported="false" />
         <activity
+            android:name=".CollageDetail"
+            android:exported="false" />
+        <activity
             android:name=".ImageUploadActivity"
             android:exported="false" />
         <activity
