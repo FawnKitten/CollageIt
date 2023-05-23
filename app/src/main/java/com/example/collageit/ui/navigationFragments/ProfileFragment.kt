@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.collageit.LoginActivity
 import com.example.collageit.User
@@ -104,6 +105,8 @@ class ProfileFragment : Fragment() {
 
                 db.collection("user").document(UserID)
                     .set(data, SetOptions.merge())
+                Toast.makeText(context, "Data saved", Toast.LENGTH_SHORT).show()
+
                 Log.d(TAG, "button clicked and UserID good")
             }
         }
