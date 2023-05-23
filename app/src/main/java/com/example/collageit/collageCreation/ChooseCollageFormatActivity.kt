@@ -11,8 +11,10 @@ import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.collageit.R
 import com.example.collageit.collageCreation.collageOptionsFragments.ImageModel
 import com.example.collageit.databinding.ActivityChooseCollageFormatBinding
+import com.google.android.play.integrity.internal.j
 import com.squareup.picasso.Picasso
 
 class ChooseCollageFormatActivity : AppCompatActivity() {
@@ -31,6 +33,7 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
     private lateinit var inflatedViewStub3: View
     private var currentSelectedViewIndex: Int? = null
     private var currentSelectedHolderImageView: ImageOptionsListViewAdapter.ViewHolder? = null
+    private var allImagesHaveBeenClicked: Boolean = false
 
     private lateinit var imagesData: List<ImageModel>
     lateinit var imageOptionsAdapter: ImageOptionsListViewAdapter
@@ -85,12 +88,35 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
 //        }
     }
 
+    private fun checkIfAllImagesHaveBeenSet(): Boolean {
+        val currentInflatedView = inflatedViewSubs[currentSelectedViewIndex!!]
+        // loop through all of the image views and see if any of them are equal to drawable grey
+        for (i in 1..7) {
+            try {
+                val imageView = currentInflatedView.findViewById<ImageView>(resources.getIdentifier("imageView_option${currentSelectedViewIndex!! + 1}_image$i", "id", packageName))
+                if (imageView.drawable.current.constantState == resources.getDrawable(R.drawable.grey, null).constantState) {
+                    return false
+                }
+            } catch (
+                e: Exception
+            ) {
+                Log.d(TAG, "setImageListenersForOptions: exception $e")
+                continue
+            }
+        }
+        return true
+    }
+
     private fun onClickOfCollageImage(imageView: ImageView) {
         if (currentSelectedHolderImageView == null) {
             Log.d(TAG, "onClickOfCollageImage: currentSelectedImageUrl == null")
             return
         }
         imageView.setImageBitmap(currentSelectedHolderImageView!!.imageViewCollage.drawable.current.toBitmap())
+        allImagesHaveBeenClicked = checkIfAllImagesHaveBeenSet()
+        if (allImagesHaveBeenClicked) {
+            binding.buttonChooseCollageFormatReview.visibility = View.VISIBLE
+        }
     }
 
      fun resetSelectedImage(selectedViewHolder: ImageOptionsListViewAdapter.ViewHolder): ImageOptionsListViewAdapter.ViewHolder? {
