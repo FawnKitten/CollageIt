@@ -2,6 +2,7 @@ package com.example.collageit
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,10 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
         Picasso.get().load(collage.picture).into(holder.imageViewCollage);
 
         holder.layout.setOnClickListener {
+            val detailIntent = Intent(it.context, CollageDetail::class.java)
+            detailIntent.putExtra(CollageDetail.EXTRA_TITLE, collage.name)
+            detailIntent.putExtra(CollageDetail.EXTRA_DESCRIPTION, collage.description)
+            detailIntent.putExtra(CollageDetail.EXTRA_IMAGE, collage.picture)
 
         }
 

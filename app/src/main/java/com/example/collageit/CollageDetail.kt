@@ -9,6 +9,8 @@ class CollageDetail : AppCompatActivity() {
     companion object {
         const val EXTRA_TITLE = "EXTRA_TITLE"
         const val EXTRA_DESCRIPTION = "EXTRA_DESCRIPTION"
+        const val EXTRA_IMAGE = "EXTRA_IMAGE"
+
     }
     private lateinit var binding: ActivityCollageDetailBinding
 
