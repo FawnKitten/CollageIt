@@ -1,5 +1,7 @@
 package com.example.collageit
 
+import android.content.ClipData.newIntent
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,17 +22,23 @@ class ReviewCollageActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityReviewCollageBinding
 
+    private var imageUri: Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewCollageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val passedInImageUri = intent.getParcelableExtra<Uri>(ReviewActivity.PASSED_IMAGE_EXTRA)
+        imageUri = passedInImageUri
         Log.d(TAG, "onCreate: passedInImageBitmap - $passedInImageUri")
 //        binding.collagePicture.setImageBitmap(passedInImageBitmap)
         Picasso.get().load(passedInImageUri).into(binding.collagePicture)
 
         binding.publishCollageButton.setOnClickListener {
+            uploadImageToUser(imageUri!!)
+            // got back to main activity
+            // send the user to the collage Fragment with the new collage
 
         }
     }
@@ -45,7 +53,8 @@ class ReviewCollageActivity : AppCompatActivity() {
                 fileRef.downloadUrl.addOnSuccessListener { uri ->
                     val url = uri
                     val users: MutableMap<String, Any> = HashMap()
-                    users["DOC"] = System.currentTimeMillis().toString()
+                    users["title"] = binding.textEditReviewTitleGetText.text.toString()
+                    users["description"] = binding.textEditReviewDescriptGetText.text.toString()
                     users["image"] = url.toString()
                     val auth1 = FirebaseAuth.getInstance().currentUser?.uid
                     val db = FirebaseFirestore.getInstance()
@@ -65,15 +74,15 @@ class ReviewCollageActivity : AppCompatActivity() {
                             }
                     }
                     if (auth1 != null) {
-                        db.collection("user").document(auth1).collection("collages").document(
-                            count.toString()
-                        ).set(users)
+                        db.collection("user").document(auth1).collection("collages").document().set(users)
                             .addOnCompleteListener {
                                 Toast.makeText(
                                     this@ReviewCollageActivity,
                                     "Upload Sucess$url",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
                             }
                     }
                 }
