@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
 
         }
         val email = binding.textEditSignupUsername.text
-        val password = binding.textEditSignupPassword.text
+        val password = binding.textEditReviewDescriptGetText.text
         binding.buttonSignupConfirm.setOnClickListener {
             auth.signInWithEmailAndPassword(email.toString(), password.toString())
                 .addOnCompleteListener(this) { task ->

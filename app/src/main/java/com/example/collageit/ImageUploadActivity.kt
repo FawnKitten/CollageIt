@@ -80,9 +80,9 @@ class ImageUploadActivity : AppCompatActivity() {
              *                         *
              ***************************/
 
-            for (uri in fileUris) {
-                upload(uri, "")
-            }
+//            for (uri in fileUris) {
+//                upload(uri, "")
+//            }
             val intent = Intent(this, ChooseCollageFormatActivity::class.java)
             intent.putExtra(ChooseCollageFormatActivity.PASSED_IMAGES_EXTRA, photoUriList)
             startActivity(intent)

@@ -31,7 +31,7 @@ class LogupActivity : AppCompatActivity() {
         }
         binding.buttonSignupConfirm.setOnClickListener {
             val email = binding.textEditSignupEmail.text
-            val password = binding.textEditSignupPassword.text.toString()
+            val password = binding.textEditReviewDescriptGetText.text.toString()
             val confirmpassword = binding.textEditSignupConfirmpassword.text.toString()
             val username = binding.textEditSignupUsername.text
 
