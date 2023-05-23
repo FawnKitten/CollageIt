@@ -5,23 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.collageit.CollageAdapter
 import com.example.collageit.R
 import com.example.collageit.collageCreation.collageOptionsFragments.ImageModel
+import com.google.android.material.color.utilities.MaterialDynamicColors.background
 import com.squareup.picasso.Picasso
 import kotlin.reflect.KFunction1
 
 
- class ImageOptionsListViewAdapter(var dataSet: List<ImageModel>, var resetSelectedImage: (imageView: ImageView) -> ImageView?) : RecyclerView.Adapter<ImageOptionsListViewAdapter.ViewHolder>() {
+ class ImageOptionsListViewAdapter(var dataSet: List<ImageModel>, var resetSelectedImage: (selectedViewHolder: ViewHolder) -> ViewHolder?) : RecyclerView.Adapter<ImageOptionsListViewAdapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val imageViewCollage: ImageView
+        val layout: ConstraintLayout
         var currentImageSelected: ViewHolder? = null
 
         init {
             imageViewCollage = view.findViewById(R.id.imageView_imageItem_image)
-
+            layout = view.findViewById(R.id.layout_imageItem_root)
         }
     }
 
@@ -49,10 +52,10 @@ import kotlin.reflect.KFunction1
             // remove the green border from the previous image
             // set the image as the selected image
             val greenBorderDrawable = ContextCompat.getDrawable(holder.imageViewCollage.context, R.drawable.green_border)
-            holder.imageViewCollage.background = greenBorderDrawable
-            val pastImageSelected = this@ImageOptionsListViewAdapter.resetSelectedImage(holder.imageViewCollage)
-            if (pastImageSelected !== holder.imageViewCollage) {
-                pastImageSelected?.background = null
+            holder.layout.background = greenBorderDrawable
+            val pastHolderImageSelected = this@ImageOptionsListViewAdapter.resetSelectedImage(holder)
+            if (pastHolderImageSelected !== holder) {
+                pastHolderImageSelected?.layout?.background = null
             }
 
 

@@ -1,17 +1,22 @@
 package com.example.collageit.ui.navigationFragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
-//import com.bumptech.glide.Glide
+import com.bumptech.glide.Glide
 import com.example.collageit.Collage
 import com.example.collageit.CollageAdapter
+import com.example.collageit.LoginActivity.Companion.TAG
 import com.example.collageit.R
 import com.example.collageit.databinding.FragmentCollageListBinding
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +34,9 @@ class CollageFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var adapter: CollageAdapter
+    private lateinit var db: FirebaseFirestore
+    private var itemsList = mutableListOf<Collage>()
+
     private lateinit var binding: FragmentCollageListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +50,6 @@ class CollageFragment : Fragment() {
 
     }
 
-    // This property is only valid between onCreateView and
 // onDestroyView.
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,22 +58,51 @@ class CollageFragment : Fragment() {
     ): View? {
         binding = FragmentCollageListBinding.inflate(inflater, container, false)
         val view = binding!!.root
-        adapter = CollageAdapter(listOf(
-            Collage(
-                "Joao",
-                "https://marketplace.canva.com/EAE9rkxE9fA/1/0/1067w/canva-beige-elegant-minimalist-travel-scrapbook-photo-collage-%28portrait%29-Vbtv_yLZdys.jpg",
-                "description"
-            ),
-            Collage(
-                "Joao2",
-                "https://firebasestorage.googleapis.com/v0/b/collageit-86d00.appspot.com/o/images%2Fimages.jpeg?alt=media&token=7962795c-fd2a-4efc-a129-cda403a7ab9b",
-                "description"
-            )
-        ))
+
+        itemsList = mutableListOf(
+
+        )
+
+db = FirebaseFirestore.getInstance()
+    db.collection("user")
+        .get()
+        .addOnSuccessListener { documents ->
+            for (document in documents) {
+                val username = document.getString("username")
+                Log.w(TAG, "Documents: " + document.toString())
+                Log.d("hello", "${document.id} => ${document.data}")
+                val collagesRef = document.getReference().collection("collages")
+                collagesRef.get().addOnSuccessListener { collages ->
+                            Log.d("hello1", collages.documents.toString())
+                    if(!collages.isEmpty) {
+                        for (document1 in collages.documents) {
+                            Log.d("hello3", document1.toString())
+                            val imageurl = document1.get("image")
+                            val imagename = document1.get("DOC")
+                            Log.d("hello3", imageurl.toString())
+                            Log.d("hello3", imagename.toString())
 
 
-        binding.recyclerViewCollageListItem.adapter = adapter
-        binding.recyclerViewCollageListItem.layoutManager = LinearLayoutManager(activity)
+                            itemsList.add(Collage(imagename.toString(), imageurl.toString()))
+                            adapter = CollageAdapter(itemsList)
+
+
+                            binding.recyclerViewCollageListItem.adapter = adapter
+                            binding.recyclerViewCollageListItem.layoutManager = LinearLayoutManager(activity)
+
+                        }
+                    }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w("hello2", "Error getting documents: ", exception)
+                    }
+
+
+            }
+        }
+        .addOnFailureListener { exception ->
+            Log.w(TAG, "Error getting documents: ", exception)
+        }
         return view
     }
 
