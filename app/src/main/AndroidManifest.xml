@@ -16,6 +16,9 @@
         android:theme="@style/Theme.CollageIt"
         tools:targetApi="31">
         <activity
+            android:name=".CollageDetail"
+            android:exported="false" />
+        <activity
             android:name=".ImageUploadActivity"
             android:exported="false" />
         <activity
