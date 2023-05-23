@@ -6,5 +6,4 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Collage (val name: String,
-                    val picture: String,
-                    val description: String) : Parcelable
+                    val picture: String) : Parcelable
