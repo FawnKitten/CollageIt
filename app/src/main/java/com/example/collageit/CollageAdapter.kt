@@ -35,23 +35,9 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val collage = dataSet[position]
         holder.textViewName.text = collage.name
-        FirebaseApp.initializeApp(holder.textViewName.context)
 
-        val storage = FirebaseStorage.getInstance()
+        Picasso.get().load(collage.picture).into(holder.imageViewCollage);
 
-        val storageRef = storage.getReferenceFromUrl("gs://collageit-86d00.appspot.com")
-
-        val spaceRef = storageRef.child("images/images.jpeg")
-        Log.d("image", spaceRef.toString())
-
-        spaceRef.downloadUrl.addOnSuccessListener { uri ->
-            Picasso.get().load(uri).into(holder.imageViewCollage)
-            Log.d("image", uri.toString())
-
-        }.addOnFailureListener { error->
-            Log.d("image", error.toString())
-
-        }
 
 
 
