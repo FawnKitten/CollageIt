@@ -1,6 +1,7 @@
 package com.example.collageit.collageCreation
 
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,13 +11,16 @@ import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.collageit.R
 import com.example.collageit.collageCreation.collageOptionsFragments.ImageModel
 import com.example.collageit.databinding.ActivityChooseCollageFormatBinding
+import com.google.android.play.integrity.internal.j
 import com.squareup.picasso.Picasso
 
 class ChooseCollageFormatActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "ChooseCollageForm"
+        const val PASSED_IMAGES_EXTRA = "imagesData"
     }
     // binding
      private lateinit var binding: ActivityChooseCollageFormatBinding
@@ -28,7 +32,8 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
     private lateinit var inflatedViewStub2: View
     private lateinit var inflatedViewStub3: View
     private var currentSelectedViewIndex: Int? = null
-    private var currentSelectedImageView: ImageView? = null
+    private var currentSelectedHolderImageView: ImageOptionsListViewAdapter.ViewHolder? = null
+    private var allImagesHaveBeenClicked: Boolean = false
 
     private lateinit var imagesData: List<ImageModel>
     lateinit var imageOptionsAdapter: ImageOptionsListViewAdapter
@@ -46,18 +51,26 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
 
         handleButtonClicks()
         // get the extra from the intent here
-//        val imagesData = intent.getParcelableArrayListExtra<ImageModel>("imagesData")
-        imagesData = listOf(
-            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
-            ImageModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRYIEzx4gj6IwJz_nOp-xlWfMhIsRqyyHMrw&usqp=CAU"),
-            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
-            ImageModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ89tEuviOGFofplj4gKpuUcBtBm9VdvfBRWg&usqp=CAU"),
-            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
-            ImageModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-aBDBxegoNFLLcyAuqXtCKFOdtjJ7p_3m0g&usqp=CAU"),
-            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
-        )
-        // do this fucking shit thank you co piolet
-//        adapter = imageOptionsAdapter(imagesData, this::onClickOfCollageImage)
+        // get the intnet data based on this line of code  intent.putExtra(ChooseCollageFormatActivity.PASSED_IMAGES_EXTRA, photoUriList.toTypedArray())
+
+        imagesData = mutableListOf<ImageModel>()
+        val extraUris = intent.getSerializableExtra(PASSED_IMAGES_EXTRA) as? ArrayList<Uri>
+        if (extraUris != null && extraUris.isNotEmpty()) {
+            for (uri in extraUris) {
+                imagesData = imagesData + ImageModel(uri)
+            }
+        }
+
+
+//        imagesData = listOf(
+//            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
+//            ImageModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRYIEzx4gj6IwJz_nOp-xlWfMhIsRqyyHMrw&usqp=CAU"),
+//            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
+//            ImageModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ89tEuviOGFofplj4gKpuUcBtBm9VdvfBRWg&usqp=CAU"),
+//            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
+//            ImageModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-aBDBxegoNFLLcyAuqXtCKFOdtjJ7p_3m0g&usqp=CAU"),
+//            ImageModel("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg"),
+//        )
         imageOptionsAdapter = ImageOptionsListViewAdapter(imagesData, this::resetSelectedImage)
 
         binding.recyclerViewCreateCollageItemsToSelectRv.adapter = imageOptionsAdapter
@@ -75,18 +88,41 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
 //        }
     }
 
+    private fun checkIfAllImagesHaveBeenSet(): Boolean {
+        val currentInflatedView = inflatedViewSubs[currentSelectedViewIndex!!]
+        // loop through all of the image views and see if any of them are equal to drawable grey
+        for (i in 1..7) {
+            try {
+                val imageView = currentInflatedView.findViewById<ImageView>(resources.getIdentifier("imageView_option${currentSelectedViewIndex!! + 1}_image$i", "id", packageName))
+                if (imageView.drawable.current.constantState == resources.getDrawable(R.drawable.grey, null).constantState) {
+                    return false
+                }
+            } catch (
+                e: Exception
+            ) {
+                Log.d(TAG, "setImageListenersForOptions: exception $e")
+                continue
+            }
+        }
+        return true
+    }
+
     private fun onClickOfCollageImage(imageView: ImageView) {
-        if (currentSelectedImageView == null) {
+        if (currentSelectedHolderImageView == null) {
             Log.d(TAG, "onClickOfCollageImage: currentSelectedImageUrl == null")
             return
         }
-        imageView.setImageBitmap(currentSelectedImageView!!.drawable.current.toBitmap())
+        imageView.setImageBitmap(currentSelectedHolderImageView!!.imageViewCollage.drawable.current.toBitmap())
+        allImagesHaveBeenClicked = checkIfAllImagesHaveBeenSet()
+        if (allImagesHaveBeenClicked) {
+            binding.buttonChooseCollageFormatReview.visibility = View.VISIBLE
+        }
     }
 
-     fun resetSelectedImage(imageView: ImageView): ImageView? {
+     fun resetSelectedImage(selectedViewHolder: ImageOptionsListViewAdapter.ViewHolder): ImageOptionsListViewAdapter.ViewHolder? {
          Log.d(TAG, "resetSelectedImage: ")
-         val imageViewToReturn = currentSelectedImageView
-         currentSelectedImageView = imageView
+         val imageViewToReturn = currentSelectedHolderImageView
+         currentSelectedHolderImageView = selectedViewHolder
          return imageViewToReturn
     }
 
