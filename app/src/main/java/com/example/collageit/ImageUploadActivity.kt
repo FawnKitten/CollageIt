@@ -23,49 +23,49 @@ class ImageUploadActivity : AppCompatActivity() {
         const val TAG = "ImageUploadActivity"
         const val PHOTO_REQUEST = 1
 
-        fun upload(context: Context, imageUri: Uri) {
-            val fileRef = FirebaseStorage.getInstance()
-
-                // change to desired reference
-                .getReference(System.currentTimeMillis().toString()) // + fileType)
-            fileRef.putFile(imageUri)
-                .addOnCompleteListener {
-                    fileRef.downloadUrl.addOnSuccessListener { uri ->
-                        val users: MutableMap<String, Any> = HashMap()
-                        users["DOC"] = System.currentTimeMillis().toString()
-                        users["image"] = uri.toString()
-                        val auth1 = FirebaseAuth.getInstance().currentUser?.uid
-                        val db = FirebaseFirestore.getInstance()
-                        var count = 1
-
-                        if (auth1 != null) {
-                            db.collection("user").document(auth1).collection("collages").get()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        for (document in task.result) {
-                                            count++
-                                        }
-                                        Log.d("TAG", count.toString() + "")
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.exception)
-                                    }
-                                }
-                        }
-                        if (auth1 != null) {
-                            db.collection("user").document(auth1).collection("collages").document(
-                                count.toString()
-                            ).set(users)
-                                .addOnCompleteListener {
-                                    Toast.makeText(
-                                        context,
-                                        "Upload Success $uri",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                        }
-                    }
-                }
-        }
+//        fun upload(context: Context, imageUri: Uri) {
+//            val fileRef = FirebaseStorage.getInstance()
+//
+//                // change to desired reference
+//                .getReference(System.currentTimeMillis().toString()) // + fileType)
+//            fileRef.putFile(imageUri)
+//                .addOnCompleteListener {
+//                    fileRef.downloadUrl.addOnSuccessListener { uri ->
+//                        val users: MutableMap<String, Any> = HashMap()
+//                        users["DOC"] = System.currentTimeMillis().toString()
+//                        users["image"] = uri.toString()
+//                        val auth1 = FirebaseAuth.getInstance().currentUser?.uid
+//                        val db = FirebaseFirestore.getInstance()
+//                        var count = 1
+//
+//                        if (auth1 != null) {
+//                            db.collection("user").document(auth1).collection("collages").get()
+//                                .addOnCompleteListener { task ->
+//                                    if (task.isSuccessful) {
+//                                        for (document in task.result) {
+//                                            count++
+//                                        }
+//                                        Log.d("TAG", count.toString() + "")
+//                                    } else {
+//                                        Log.d(TAG, "Error getting documents: ", task.exception)
+//                                    }
+//                                }
+//                        }
+//                        if (auth1 != null) {
+//                            db.collection("user").document(auth1).collection("collages").document(
+//                                count.toString()
+//                            ).set(users)
+//                                .addOnCompleteListener {
+//                                    Toast.makeText(
+//                                        context,
+//                                        "Upload Success $uri",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//                        }
+//                    }
+//                }
+//        }
 
         fun getPath(context: Context, uri: Uri): String {
             val contentResolver = context.applicationContext.contentResolver
@@ -144,9 +144,9 @@ class ImageUploadActivity : AppCompatActivity() {
              *                         *
              ***************************/
 
-            for (uri in fileUris) {
-                upload(this, uri)
-            }
+//            for (uri in fileUris) {
+//                upload(this, uri)
+//            }
             val intent = Intent(this, ChooseCollageFormatActivity::class.java)
             intent.putExtra(ChooseCollageFormatActivity.PASSED_IMAGES_EXTRA, photoUriList)
             startActivity(intent)

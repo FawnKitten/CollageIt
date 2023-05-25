@@ -91,9 +91,9 @@ class CreateCollageFragment : Fragment() {
              *                         *
              ***************************/
 
-            for (uri in fileUris) {
-                ImageUploadActivity.upload(requireContext(), uri)
-            }
+//            for (uri in fileUris) {
+//                ImageUploadActivity.upload(requireContext(), uri)
+//            }
             val intent = Intent(context, ChooseCollageFormatActivity::class.java)
             intent.putExtra(ChooseCollageFormatActivity.PASSED_IMAGES_EXTRA, photoUriList)
             startActivity(intent)

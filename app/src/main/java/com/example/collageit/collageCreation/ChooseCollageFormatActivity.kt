@@ -1,5 +1,7 @@
 package com.example.collageit.collageCreation
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -8,11 +10,16 @@ import android.view.ViewStub
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.drawToBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.collageit.R
+import com.example.collageit.ReviewCollageActivity
 import com.example.collageit.collageCreation.collageOptionsFragments.ImageModel
 import com.example.collageit.databinding.ActivityChooseCollageFormatBinding
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 class ChooseCollageFormatActivity : AppCompatActivity() {
     companion object {
@@ -83,6 +90,40 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
 //        imageTest2.setOnClickListener {
 //            currentSelectedImageUrl = imageTest2.drawable.current.toBitmap()
 //        }
+
+        binding.buttonChooseCollageFormatReview.setOnClickListener {
+            handleSendToReview()
+        }
+    }
+
+    private fun handleSendToReview() {
+        // take a screenshot of the current view
+        val screenShotUri = takeScreenShopOfViewSubs()
+        Log.d(TAG, "handleSendToReview: screenShotUri $screenShotUri")
+        // send the screenshot to the review activity
+        // start the review activity
+        val intent = Intent(this, ReviewCollageActivity::class.java)
+        intent.putExtra(ReviewCollageActivity.PASSED_IMAGE_EXTRA, screenShotUri)
+        startActivity(intent)
+    }
+
+    private fun takeScreenShopOfViewSubs(): Uri? {
+        Log.d(TAG, "takeScreenShopOfViewSubs: currentSelectedViewIndex $currentSelectedViewIndex")
+        val view = inflatedViewSubs[currentSelectedViewIndex!!]
+        val bitmap = view.drawToBitmap()
+        Log.d(TAG, "takeScreenShopOfViewSubs: bitmap $bitmap")
+        // convert bitmap to uri
+
+        val tempFile = File.createTempFile("temprentpk", ".png")
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
+        val bitmapData = bytes.toByteArray()
+
+        val fileOutPut = FileOutputStream(tempFile)
+        fileOutPut.write(bitmapData)
+        fileOutPut.flush()
+        fileOutPut.close()
+        return Uri.fromFile(tempFile)
     }
 
     private fun checkIfAllImagesHaveBeenSet(): Boolean {
