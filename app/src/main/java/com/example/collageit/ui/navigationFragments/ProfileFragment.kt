@@ -70,8 +70,10 @@ class ProfileFragment : Fragment() {
                         if (userData != null) {
                             binding.textEditName.setText(userData["username"] as String)
                             binding.textEditDescription.setText(userData["bio"] as String)
-                            Picasso.get().load(userData["profileLink"] as String)
-                                .into(binding.imageViewProfileProfilePicture)
+                            if (userData["profileLink"] != "") {
+                                Picasso.get().load(userData["profileLink"] as String)
+                                    .into(binding.imageViewProfileProfilePicture)
+                            }
                         }
                         Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                     } else {
@@ -105,7 +107,7 @@ class ProfileFragment : Fragment() {
                 var profilePictureLink: String? = getDownloadLink()
                 docRef.get()
                     .addOnSuccessListener { document ->
-                        if (document != null) {
+                        if (document.get("profilePictureLink") != null) {
                             profilePictureLink = document.get("profilePictureLink") as String
                         } else {
                             Log.d(TAG, "No such document")
@@ -205,7 +207,9 @@ class ProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         upload(data!!.data!!)
 
-        Picasso.get().load(data.data).into(binding.imageViewProfileProfilePicture)
+        if (data.data != null) {
+            Picasso.get().load(data.data).into(binding.imageViewProfileProfilePicture)
+        }
     }
 
 
