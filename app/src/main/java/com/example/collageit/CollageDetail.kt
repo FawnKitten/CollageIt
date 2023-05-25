@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.collageit.databinding.ActivityCollageDetailBinding
 import com.example.collageit.databinding.ActivityLoginBinding
+import com.squareup.picasso.Picasso
 
 class CollageDetail : AppCompatActivity() {
     companion object {
@@ -16,8 +17,18 @@ class CollageDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_collage_detail)
         binding = ActivityCollageDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val name = intent.getStringExtra(CollageAdapter.EXTRA_TITLE)
+        val description = intent.getStringExtra(CollageAdapter.EXTRA_DESCRIPTION)
+        val image = intent.getStringExtra(CollageAdapter.EXTRA_IMAGE)
+        binding.detailName.setText(name)
+        binding.detailDescription.setText(description)
+
+        if (image != null) {
+            Picasso.get().load(image).into(binding.detailImage)
+        }
+
 
     }
 }

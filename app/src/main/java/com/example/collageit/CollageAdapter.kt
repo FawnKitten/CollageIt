@@ -22,18 +22,16 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
     companion object {
         const val EXTRA_TITLE = "EXTRA_TITLE"
         const val EXTRA_DESCRIPTION = "EXTRA_DESCRIPTION"
+        const val EXTRA_IMAGE = "EXTRA_IMAGE"
     }
-    @SuppressLint("ResourceType")
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val textViewName: TextView
         val imageViewCollage: ImageView
-        val layout : ConstraintLayout
 
 
         init{
             textViewName = view.findViewById(R.id.textView_collageName_itemCollage)
             imageViewCollage = view.findViewById(R.id.imageView_collagePicture_itemCollage)
-            layout = view.findViewById(R.layout.activity_collagelistitem)
 
         }
     }
@@ -49,14 +47,14 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
         holder.textViewName.text = collage.name
 
         Picasso.get().load(collage.picture).into(holder.imageViewCollage);
-
-        holder.layout.setOnClickListener {
+        holder.itemView.setOnClickListener {
             val detailIntent = Intent(it.context, CollageDetail::class.java)
             detailIntent.putExtra(CollageDetail.EXTRA_TITLE, collage.name)
             detailIntent.putExtra(CollageDetail.EXTRA_DESCRIPTION, collage.description)
             detailIntent.putExtra(CollageDetail.EXTRA_IMAGE, collage.picture)
-
+            it.context.startActivity(detailIntent)
         }
+
 
 
 
