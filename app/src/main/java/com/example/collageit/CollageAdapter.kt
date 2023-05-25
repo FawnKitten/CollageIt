@@ -23,6 +23,7 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
         const val EXTRA_TITLE = "EXTRA_TITLE"
         const val EXTRA_DESCRIPTION = "EXTRA_DESCRIPTION"
         const val EXTRA_IMAGE = "EXTRA_IMAGE"
+        const val EXTRA_USERNAME = "EXTRA_USERNAME"
     }
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val textViewName: TextView
@@ -53,6 +54,7 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
             detailIntent.putExtra(CollageDetail.EXTRA_TITLE, collage.name)
             detailIntent.putExtra(CollageDetail.EXTRA_DESCRIPTION, collage.description)
             detailIntent.putExtra(CollageDetail.EXTRA_IMAGE, collage.picture)
+            detailIntent.putExtra(CollageDetail.EXTRA_USERNAME, collage.username)
             it.context.startActivity(detailIntent)
         }
 

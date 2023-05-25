@@ -74,10 +74,10 @@ class CollageFragment : Fragment() {
                             val imageurl = document1.get("image")
                             val imagename = document1.get("title")
                             val imagedescription = document1.get("description")
+                            val username = document.get("username")
 
 
-
-                            itemsList.add(Collage(imagename.toString(), imagedescription.toString(), imageurl.toString()))
+                            itemsList.add(Collage(username.toString(), imagename.toString(), imagedescription.toString(), imageurl.toString()))
                             adapter = CollageAdapter(itemsList)
 
 
