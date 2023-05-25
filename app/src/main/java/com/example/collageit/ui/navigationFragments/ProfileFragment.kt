@@ -1,21 +1,18 @@
 package com.example.collageit.ui.navigationFragments
 
 import android.content.Intent
-import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.collageit.ImageUploadActivity
 import com.example.collageit.LoginActivity
 import com.example.collageit.User
-import com.example.collageit.UserProfile
 import com.example.collageit.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -82,25 +79,42 @@ class ProfileFragment : Fragment() {
                 }
         }
 
-//        view.setOnClickListener {
-//            auth = FirebaseAuth.getInstance()
-//            auth.signOut()
-//        }
-
         val user = User(
             "John Doe",
             "john.doe",
             "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fbodhicounseling.com%2Fwp-content%2Fuploads%2F2018%2F05%2Fblank-profile-picture-973460_960_720-300x300.png&f=1&nofb=1&ipt=c0de406be899c4b55ce869cb39cf7cd0a1726c1bf95cc6db371a65d279e0771a&ipo=images"
         )
 
+
+
+        binding.imageViewProfileProfilePicture.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, ImageUploadActivity.PHOTO_REQUEST)
+        }
         binding.saveInformationButton.setOnClickListener {
             Log.d(TAG, "instance: ${auth}")
             Log.d(TAG, "UserID: ${UserID}")
             Log.d(TAG, "curr user: ${currUser}")
             if (UserID != null) {
+                val docRef = db.collection("user").document(UserID)
+                var profilePictureLink: String? = null
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            profilePictureLink = document.get("profilePictureLink") as String
+                        } else {
+                            Log.d(TAG, "No such document")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "get failed with ", exception)
+                    }
                 val data = hashMapOf(
                     "username" to binding.textEditName.text.toString(),
-                    "bio" to binding.textEditDescription.text.toString()
+                    "bio" to binding.textEditDescription.text.toString(),
+                    "profilePictureLink" to (profilePictureLink
+                        ?: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fbodhicounseling.com%2Fwp-content%2Fuploads%2F2018%2F05%2Fblank-profile-picture-973460_960_720-300x300.png&f=1&nofb=1&ipt=c0de406be899c4b55ce869cb39cf7cd0a1726c1bf95cc6db371a65d279e0771a&ipo=images")
                 )
 
                 db.collection("user").document(UserID)
@@ -123,6 +137,13 @@ class ProfileFragment : Fragment() {
 
 //        return inflater.inflate(R.layout.fragment_profile, container, false)
         return view
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        ImageUploadActivity.upload(requireContext(), data!!.data!!)
+
+        Picasso.get().load(data.data).into(binding.imageViewProfileProfilePicture)
     }
 
 

@@ -1,28 +1,18 @@
 package com.example.collageit.collageCreation
 
-import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewStub
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.drawToBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.collageit.R
-import com.example.collageit.ReviewActivity
-import com.example.collageit.ReviewCollageActivity
 import com.example.collageit.collageCreation.collageOptionsFragments.ImageModel
 import com.example.collageit.databinding.ActivityChooseCollageFormatBinding
-import com.google.android.play.integrity.internal.j
-import com.squareup.picasso.Picasso
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 
 class ChooseCollageFormatActivity : AppCompatActivity() {
     companion object {
@@ -42,7 +32,7 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
     private var currentSelectedHolderImageView: ImageOptionsListViewAdapter.ViewHolder? = null
     private var allImagesHaveBeenClicked: Boolean = false
 
-    private lateinit var imagesData: List<ImageModel>
+    private lateinit var imagesData: MutableList<ImageModel>
     lateinit var imageOptionsAdapter: ImageOptionsListViewAdapter
 
 
@@ -60,11 +50,11 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
         // get the extra from the intent here
         // get the intnet data based on this line of code  intent.putExtra(ChooseCollageFormatActivity.PASSED_IMAGES_EXTRA, photoUriList.toTypedArray())
 
-        imagesData = mutableListOf<ImageModel>()
+        imagesData = mutableListOf()
         val extraUris = intent.getSerializableExtra(PASSED_IMAGES_EXTRA) as? ArrayList<Uri>
         if (extraUris != null && extraUris.isNotEmpty()) {
             for (uri in extraUris) {
-                imagesData = imagesData + ImageModel(uri)
+                imagesData += ImageModel(uri)
             }
         }
 
@@ -83,38 +73,16 @@ class ChooseCollageFormatActivity : AppCompatActivity() {
         binding.recyclerViewCreateCollageItemsToSelectRv.adapter = imageOptionsAdapter
         binding.recyclerViewCreateCollageItemsToSelectRv.layoutManager = LinearLayoutManager(this@ChooseCollageFormatActivity, RecyclerView.HORIZONTAL, false)
 
-        binding.buttonChooseCollageFormatReview.setOnClickListener {
-            handleSendToReview()
-        }
-    }
-    private fun handleSendToReview() {
-        // take a screenshot of the current view
-        val screenShotUri = takeScreenShopOfViewSubs()
-        Log.d(TAG, "handleSendToReview: screenShotUri $screenShotUri")
-        // send the screenshot to the review activity
-        // start the review activity
-        val intent = Intent(this, ReviewCollageActivity::class.java)
-        intent.putExtra(ReviewCollageActivity.PASSED_IMAGE_EXTRA, screenShotUri)
-        startActivity(intent)
-    }
-
-    private fun takeScreenShopOfViewSubs(): Uri? {
-        Log.d(TAG, "takeScreenShopOfViewSubs: currentSelectedViewIndex $currentSelectedViewIndex")
-        val view = inflatedViewSubs[currentSelectedViewIndex!!]
-        val bitmap = view.drawToBitmap()
-        Log.d(TAG, "takeScreenShopOfViewSubs: bitmap $bitmap")
-        // convert bitmap to uri
-
-        val tempFile = File.createTempFile("temprentpk", ".png")
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-        val bitmapData = bytes.toByteArray()
-
-        val fileOutPut = FileOutputStream(tempFile)
-        fileOutPut.write(bitmapData)
-        fileOutPut.flush()
-        fileOutPut.close()
-        return Uri.fromFile(tempFile)
+//        val imageTes1 = binding.imageViewCreateCollageTest1
+//        Picasso.get().load("https://t4.ftcdn.net/jpg/04/80/95/25/240_F_480952585_wOmBshuqPnlIQVztf5fTSMopQnAteqeM.jpg").into(imageTes1)
+//        val imageTest2 = binding.ImageViewCreateCollageTest2
+//        Picasso.get().load("https://t4.ftcdn.net/jpg/01/30/94/51/240_F_130945151_gaeyqMhFTg8d9i620ao7vcJ5Qee4dOQ9.jpg").into(imageTest2)
+//        imageTes1.setOnClickListener {
+//            currentSelectedImageUrl = imageTes1.drawable.current.toBitmap()
+//        }
+//        imageTest2.setOnClickListener {
+//            currentSelectedImageUrl = imageTest2.drawable.current.toBitmap()
+//        }
     }
 
     private fun checkIfAllImagesHaveBeenSet(): Boolean {

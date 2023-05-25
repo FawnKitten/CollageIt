@@ -7,7 +7,7 @@
     tools:context=".ui.navigationFragments.ProfileFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shapeableImageView"
+        android:id="@+id/imageView_profile_profilePicture"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_margin="10dp"

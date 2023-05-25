@@ -1,5 +1,6 @@
 package com.example.collageit
 
+import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
@@ -13,6 +14,7 @@ import com.example.collageit.collageCreation.ChooseCollageFormatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import java.io.FileNotFoundException
 
 private fun <T> T.debug(): T {
     Log.d(ImageUploadActivity.TAG, "DEBUG: $this")
@@ -24,6 +26,51 @@ class ImageUploadActivity : AppCompatActivity() {
     companion object {
         const val TAG = "ImageUploadActivity"
         const val PHOTO_REQUEST = 1
+
+        fun upload(context: Context, imageUri: Uri) {
+            val fileRef = FirebaseStorage.getInstance()
+
+                // change to desired reference
+                .getReference(System.currentTimeMillis().toString()) // + fileType)
+            fileRef.putFile(imageUri)
+                .addOnCompleteListener {
+                    fileRef.downloadUrl.addOnSuccessListener { uri ->
+                        val users: MutableMap<String, Any> = HashMap()
+                        users["DOC"] = System.currentTimeMillis().toString()
+                        users["image"] = uri.toString()
+                        val auth1 = FirebaseAuth.getInstance().currentUser?.uid
+                        val db = FirebaseFirestore.getInstance()
+                        var count = 1
+
+                        if (auth1 != null) {
+                            db.collection("user").document(auth1).collection("collages").get()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        for (document in task.result) {
+                                            count++
+                                        }
+                                        Log.d("TAG", count.toString() + "")
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.exception)
+                                    }
+                                }
+                        }
+                        if (auth1 != null) {
+                            db.collection("user").document(auth1).collection("collages").document(
+                                count.toString()
+                            ).set(users)
+                                .addOnCompleteListener {
+                                    Toast.makeText(
+                                        context,
+                                        "Upload Success $uri",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                        }
+                    }
+                }
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,23 +94,22 @@ class ImageUploadActivity : AppCompatActivity() {
 
             // TODO: Only accept valid file extensions
             val fileUris = (0 until clipData.itemCount).map { clipData.getItemAt(it).uri }.debug()
-//            val filePaths = fileUris.map { getPath(it.debug()) }
-//            Log.d(TAG, "onActivityResult: filePaths - $filePaths")
-//            val fileExtns = filePaths.map { it.substring(it.lastIndexOf(".") + 1) }
-//            Log.d(TAG, "onActivityResult: extns - $fileExtns")
-//            try {
-//                val allowedFiletypes = listOf("img", "jpg", "jpeg", "png")
-//                if (fileExtns.any { !allowedFiletypes.contains(it) }) {
-//                    //FINE
-//                    Log.d(TAG, "onActivityResult: in the if with $filePaths $fileExtns")
-//                } else {
-//                    //NOT IN REQUIRED FORMAT
-//                    Log.d(TAG, "onActivityResult: not in required format")
-//                }
-//            } catch (e: FileNotFoundException) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace()
-//            }
+            val filePaths = fileUris.map { getPath(it.debug()) }
+            Log.d(TAG, "onActivityResult: filePaths - $filePaths")
+            val fileExtns = filePaths.map { it.substring(it.lastIndexOf(".") + 1) }
+            Log.d(TAG, "onActivityResult: extns - $fileExtns")
+            try {
+                val allowedFiletypes = listOf("img", "jpg", "jpeg", "png")
+                if (fileExtns.any { !allowedFiletypes.contains(it) }) {
+                    //FINE
+                    Log.d(TAG, "onActivityResult: in the if with $filePaths $fileExtns")
+                } else {
+                    //NOT IN REQUIRED FORMAT
+                    Log.d(TAG, "onActivityResult: not in required format")
+                }
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
 
 
             // TODO: Send URIS to ChooseCollageFormatActivity
@@ -80,9 +126,9 @@ class ImageUploadActivity : AppCompatActivity() {
              *                         *
              ***************************/
 
-//            for (uri in fileUris) {
-//                upload(uri, "")
-//            }
+            for (uri in fileUris) {
+                upload(this, uri)
+            }
             val intent = Intent(this, ChooseCollageFormatActivity::class.java)
             intent.putExtra(ChooseCollageFormatActivity.PASSED_IMAGES_EXTRA, photoUriList)
             startActivity(intent)
@@ -90,73 +136,28 @@ class ImageUploadActivity : AppCompatActivity() {
         }
     }
 
-    fun getPath(uri: Uri?): String {
-        val projection = arrayOf(MediaStore.MediaColumns.DATA)
-        val cursor: Cursor = managedQuery(uri, projection, null, null, null)
-        var columnIndex = cursor
-            .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-        cursor.moveToFirst()
-        var imagePath = cursor.getString(columnIndex)
-        return cursor.getString(columnIndex)
-    }
-
-    private fun upload(imageUri: Uri, fileType: String) {
-        val fileRef = FirebaseStorage.getInstance()
-
-            // change to desired reference
-            .getReference(System.currentTimeMillis().toString()) // + fileType)
-        fileRef.putFile(imageUri)
-            .addOnCompleteListener {
-                fileRef.downloadUrl.addOnSuccessListener { uri ->
-                    val url = uri
-                    val users: MutableMap<String, Any> = HashMap()
-                    users["DOC"] = System.currentTimeMillis().toString()
-                    users["image"] = url.toString()
-                    val auth1 = FirebaseAuth.getInstance().currentUser?.uid
-                    val db = FirebaseFirestore.getInstance()
-                    var count = 1
-
-                    if (auth1 != null) {
-                        db.collection("user").document(auth1).collection("collages").get()
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    for (document in task.result) {
-                                        count++
-                                    }
-                                    Log.d("TAG", count.toString() + "")
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.exception)
-                                }
-                            }
-                    }
-                    if (auth1 != null) {
-                        db.collection("user").document(auth1).collection("collages").document(
-                            count.toString()
-                        ).set(users)
-                            .addOnCompleteListener {
-                                Toast.makeText(
-                                    this@ImageUploadActivity,
-                                    "Upload Sucess$url",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                    }
-                }
+    private fun getPath(uri: Uri): String {
+        val contentResolver = applicationContext.contentResolver
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor: Cursor = contentResolver.query(uri, projection, null, null, null)!!
+        Log.d(TAG, "getPath: cursor Not Null")
+        var filePath = ""
+        cursor.let {
+            if (it.moveToFirst()) {
+                Log.d(TAG, "getPath: moved to first")
+                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                Log.d(TAG, "getPath: ${cursor.isBeforeFirst || cursor.isAfterLast}")
+                filePath = cursor.getString(columnIndex)!!
+                Log.d(TAG, "getPath: filepath not null")
             }
+            cursor.close()
+        }
+        return filePath
     }
+
+
 }
 
-//    // TODO Get file path
-//    private fun getPath(uri: Uri?): String {
-//        Log.d(TAG, "getPath: uri - $uri")
-//        val projection = arrayOf(MediaStore.MediaColumns.DATA)
-//        val cursor: Cursor = managedQuery(uri, projection, null, null, null)
-//        val columnIndex = cursor
-//            .getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-//        cursor.moveToFirst()
-//        val imagePath = cursor.getString(columnIndex).debug()
-//        return imagePath
-//    }
 //
 //    fun getRealPathFromURI(context: Context, contentUri: Uri): String {
 //        var cursor: Cursor? = null
