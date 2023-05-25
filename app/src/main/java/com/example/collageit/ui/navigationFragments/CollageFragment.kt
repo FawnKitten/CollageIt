@@ -2,22 +2,16 @@ package com.example.collageit.ui.navigationFragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.collageit.Collage
 import com.example.collageit.CollageAdapter
 import com.example.collageit.LoginActivity.Companion.TAG
-import com.example.collageit.R
 import com.example.collageit.databinding.FragmentCollageListBinding
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,7 +57,7 @@ class CollageFragment : Fragment() {
 
         )
 
-db = FirebaseFirestore.getInstance()
+    db = FirebaseFirestore.getInstance()
     db.collection("user")
         .get()
         .addOnSuccessListener { documents ->
