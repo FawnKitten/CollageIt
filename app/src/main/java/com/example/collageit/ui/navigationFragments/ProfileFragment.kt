@@ -1,6 +1,7 @@
 package com.example.collageit.ui.navigationFragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 
 // TODO: Rename parameter arguments, choose names that match
@@ -68,6 +70,8 @@ class ProfileFragment : Fragment() {
                         if (userData != null) {
                             binding.textEditName.setText(userData["username"] as String)
                             binding.textEditDescription.setText(userData["bio"] as String)
+                            Picasso.get().load(userData["profileLink"] as String)
+                                .into(binding.imageViewProfileProfilePicture)
                         }
                         Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                     } else {
@@ -98,7 +102,7 @@ class ProfileFragment : Fragment() {
             Log.d(TAG, "curr user: ${currUser}")
             if (UserID != null) {
                 val docRef = db.collection("user").document(UserID)
-                var profilePictureLink: String? = null
+                var profilePictureLink: String? = getDownloadLink()
                 docRef.get()
                     .addOnSuccessListener { document ->
                         if (document != null) {
@@ -139,9 +143,67 @@ class ProfileFragment : Fragment() {
         return view
     }
 
+    fun upload(imageUri: Uri) {
+        val fileRef = FirebaseStorage.getInstance()
+
+            // change to desired reference
+            .getReference(System.currentTimeMillis().toString()) // + fileType)
+        fileRef.putFile(imageUri)
+            .addOnCompleteListener {
+                fileRef.downloadUrl.addOnSuccessListener { url ->
+                    val user: MutableMap<String, Any> = HashMap()
+                    user["profileLink"] = url
+                    val auth1 = FirebaseAuth.getInstance().currentUser?.uid
+                    val db = FirebaseFirestore.getInstance()
+                    var count = 1
+
+                    if (auth1 != null) {
+                        db.collection("user").document(auth1).update(user)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(
+                                        context,
+                                        "Uploaded Profile Picture Successfully",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Log.d(
+                                        ImageUploadActivity.TAG,
+                                        "Error getting documents: ",
+                                        task.exception
+                                    )
+                                }
+                            }
+                    }
+                }
+            }
+    }
+
+    fun getDownloadLink(): String {
+
+        val auth1 = FirebaseAuth.getInstance().currentUser?.uid
+        val db = FirebaseFirestore.getInstance()
+        if (auth1 != null) {
+            db.collection("user").document(auth1).get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            context,
+                            "Uploaded Profile Picture Successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Log.d(ImageUploadActivity.TAG, "Error getting documents: ", task.exception)
+                    }
+                }
+        }
+        return ""
+    }
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        ImageUploadActivity.upload(requireContext(), data!!.data!!)
+        upload(data!!.data!!)
 
         Picasso.get().load(data.data).into(binding.imageViewProfileProfilePicture)
     }
