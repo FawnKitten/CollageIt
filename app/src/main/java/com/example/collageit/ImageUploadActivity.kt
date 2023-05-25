@@ -16,10 +16,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.FileNotFoundException
 
-private fun <T> T.debug(): T {
-    Log.d(ImageUploadActivity.TAG, "DEBUG: $this")
-    return this
-}
 
 class ImageUploadActivity : AppCompatActivity() {
 
@@ -71,12 +67,34 @@ class ImageUploadActivity : AppCompatActivity() {
                 }
         }
 
+        fun getPath(context: Context, uri: Uri): String {
+            val contentResolver = context.applicationContext.contentResolver
+            val projection = arrayOf(MediaStore.Images.Media.DATA)
+            val cursor: Cursor = contentResolver.query(uri, projection, null, null, null)!!
+            Log.d(TAG, "getPath: cursor Not Null")
+            var filePath = ""
+            cursor.let {
+                if (it.moveToFirst()) {
+                    Log.d(TAG, "getPath: moved to first")
+                    val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                    Log.d(TAG, "getPath: ${columnIndex}")
+                    Log.d(TAG, "getPath: $cursor")
+                    filePath = cursor.getString(columnIndex)!!
+                    Log.d(TAG, "getPath: filepath not null")
+                }
+                cursor.close()
+            }
+            return filePath
+        }
+
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_upload)
-        findViewById<TextView>(R.id.textView8).setOnClickListener {
+        // copied
+        findViewById<TextView>(R.id.button_createCollage_upload).setOnClickListener {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -90,11 +108,11 @@ class ImageUploadActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PHOTO_REQUEST) if (resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: uri - ${data?.clipData}")
-            val clipData = data?.clipData!!.debug()
+            val clipData = data?.clipData!!
 
             // TODO: Only accept valid file extensions
-            val fileUris = (0 until clipData.itemCount).map { clipData.getItemAt(it).uri }.debug()
-            val filePaths = fileUris.map { getPath(it.debug()) }
+            val fileUris = (0 until clipData.itemCount).map { clipData.getItemAt(it).uri }
+            val filePaths = fileUris.map { getPath(this, it) }
             Log.d(TAG, "onActivityResult: filePaths - $filePaths")
             val fileExtns = filePaths.map { it.substring(it.lastIndexOf(".") + 1) }
             Log.d(TAG, "onActivityResult: extns - $fileExtns")
@@ -136,24 +154,6 @@ class ImageUploadActivity : AppCompatActivity() {
         }
     }
 
-    private fun getPath(uri: Uri): String {
-        val contentResolver = applicationContext.contentResolver
-        val projection = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor: Cursor = contentResolver.query(uri, projection, null, null, null)!!
-        Log.d(TAG, "getPath: cursor Not Null")
-        var filePath = ""
-        cursor.let {
-            if (it.moveToFirst()) {
-                Log.d(TAG, "getPath: moved to first")
-                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                Log.d(TAG, "getPath: ${cursor.isBeforeFirst || cursor.isAfterLast}")
-                filePath = cursor.getString(columnIndex)!!
-                Log.d(TAG, "getPath: filepath not null")
-            }
-            cursor.close()
-        }
-        return filePath
-    }
 
 
 }
