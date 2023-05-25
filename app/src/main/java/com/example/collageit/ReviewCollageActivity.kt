@@ -1,13 +1,11 @@
 package com.example.collageit
 
-import android.content.ClipData.newIntent
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.example.collageit.databinding.ActivityReviewBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.example.collageit.databinding.ActivityReviewCollageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,9 +41,9 @@ class ReviewCollageActivity : AppCompatActivity() {
         }
     }
 
+
     private fun uploadImageToUser(imageUri: Uri) {
         val fileRef = FirebaseStorage.getInstance()
-
             // change to desired reference
             .getReference(System.currentTimeMillis().toString()) // + fileType)
         fileRef.putFile(imageUri)
@@ -88,6 +86,5 @@ class ReviewCollageActivity : AppCompatActivity() {
                 }
             }
     }
-
 
 }
