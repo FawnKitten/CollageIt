@@ -33,7 +33,7 @@ class CollageAdapter (var dataSet: List<Collage>) : RecyclerView.Adapter<Collage
         init{
             textViewName = view.findViewById(R.id.textView_collageName_itemCollage)
             imageViewCollage = view.findViewById(R.id.imageView_collagePicture_itemCollage)
-            layout = view.findViewById(R.layout.activity_collagelistitem)
+            layout = view.findViewById(R.id.layout_collagelist_itemLayout)
 
         }
     }
